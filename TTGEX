@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Cuota</title>
+    <style>
+        #maestroBox {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 20px;
+            background-color: #3498db;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="color: green;">Calculadora de Cuota</h1>
+
+    <form id="loanForm">
+        <label for="tasaInteres">Tasa de Interés (%): </label>
+        <input type="number" id="tasaInteres" name="tasaInteres" required><br>
+
+        <label for="montoCompra">Monto de Compra ($): </label>
+        <input type="number" id="montoCompra" name="montoCompra" required><br>
+
+        <label for="numCuotas">Número de Cuotas: </label>
+        <input type="number" id="numCuotas" name="numCuotas" required><br>
+
+        <label for="valorGarantia">Valor Garantía ($): </label>
+        <input type="number" id="valorGarantia" name="valorGarantia" required><br>
+
+        <input type="button" value="Calcular Cuota" onclick="calcularCuota()">
+    </form>
+
+    <h2>Resultados:</h2>
+    <p>CON GARANTIA EX: $<span id="conGarantia"></span></p>
+    <p>SIN GARANTIA EX: $<span id="sinGarantia"></span></p>
+    <p>DIFERENCIA: $<span id="diferencia"></span></p>
+
+    <div id="maestroBox" onclick="redirigirAMaestro()">Maestro</div>
+
+    <script>
+        function calcularCuota() {
+            var tasaInteres = document.getElementById('tasaInteres').value;
+            var montoCompra = document.getElementById('montoCompra').value;
+            var numCuotas = document.getElementById('numCuotas').value;
+            var valorGarantia = document.getElementById('valorGarantia').value;
+
+            // Lógica de cálculo de cuota con tasa fija
+            var cuotaSinGarantia = (parseFloat(montoCompra) * (1 + (parseFloat(tasaInteres) / 100))) / parseFloat(numCuotas);
+            var cuotaConGarantia = (parseFloat(montoCompra) + parseFloat(valorGarantia)) / parseFloat(numCuotas);
+
+            // Muestra los resultados con formato de moneda
+            document.getElementById('conGarantia').innerText = '$' + cuotaConGarantia.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            document.getElementById('sinGarantia').innerText = '$' + cuotaSinGarantia.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            
+            // Calcula y muestra la diferencia
+            var diferencia = cuotaConGarantia - cuotaSinGarantia;
+            document.getElementById('diferencia').innerText = '$' + diferencia.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        }
+
+        function redirigirAMaestro() {
+            window.location.href = 'https://app.powerbi.com/view?r=eyJrIjoiYjU1M2YzMmUtZjVlMi00MjAyLWIxYTQtMDk0Yzc3MWUzMTQ0IiwidCI6IjM1NGYxMGE1LTA3ODItNDY2My04ODk3LThiNjA3NDdlYjhiYyIsImMiOjN9&pageName=ReportSectiond2bcfb18ebe7c00a9ad0';
+        }
+    </script>
+
+</body>
+</html>
